@@ -182,25 +182,7 @@ load_env() {
       for i in $obfuscate_part; do
         if [[ "A$key" == *"$i"* ]]; then doobs=obfuscate; break; fi
       done
-      if [[ "A$doobs" == "Aobfuscate" ]]; then rvalue="**OBFUSCATED**"; fi
-
-      export "$key=$value"
       
-        echo "  ++ Setting environment variable $key [$rvalue]"
-        doit=true
-      elif [ "A$overwrite_if_different" == "Atrue" ]; then
-        cvalue="${!key}"
-        if [[ "A${doobs}" == "Aobfuscate" ]]; then cvalue="**OBFUSCATED**"; fi
-        if [[ "A${!key}" != "A${value}" ]]; then
-          echo "  @@ Overwriting environment variable $key [$cvalue] -> [$rvalue]"
-          doit=true
-        else
-          echo "  == Environment variable $key [$rvalue] already set and value is unchanged"
-        fi
-      fi
-      if [[ "A$doit" == "Atrue" ]]; then
-        export "$key=$value"
-      fi
     done < "$tocheck"
   fi
 }
